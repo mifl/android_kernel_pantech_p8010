@@ -12,3 +12,9 @@
 	
 3.	How to Clean Kernel object files
 	a.	make ARCH=arm clean
+
+------------------------------------------------------------------------------------------
+
+Pantech "initial" source:
+
+https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm.git;a=tree;h=refs/heads/ics_chocolate_rb7.2;hb=refs/heads/ics_chocolate_rb7.2

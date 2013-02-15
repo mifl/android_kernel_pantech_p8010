@@ -333,7 +333,7 @@ config ANDROID_PANTECH_USB_OTG_INTENT
 
 config ANDROID_PANTECH_USB_OTG_CHARGER_SUSPEND
   depends on ANDROID_PANTECH_USB
-  bool "PANTECH USB OTG Charger suspend
+  bool "PANTECH USB OTG Charger suspend"
   default n
 	 help
      Support Pantech USB OTG Intent

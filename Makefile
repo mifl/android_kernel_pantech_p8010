@@ -375,7 +375,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks
 
-#// 20120105, albatros, imei ¡÷º“∞™¿« ∞¯øÎ¿∏∑Œ ªÁøÎ¿ª ¿ß«ÿº≠
+#// 20120105, albatros, imei Ï£ºÏÜåÍ∞íÏùò Í≥µÏö©ÏúºÎ°ú ÏÇ¨Ïö©ÏùÑ ÏúÑÌï¥ÏÑú
 ifeq ($(OEM_PRODUCT_MANUFACTURER),PANTECH)
 LINUXINCLUDE += -I$(srctree)/../pantech/frameworks/sky_rawdata
 endif
@@ -391,8 +391,8 @@ $(info "========================================================================
 # Add START. by sungwook on 2010-05-07
 #----------------------------------------------------------------------
 PANTECH_ANDROID_FLAGS := -DFEATURE_AARM_RELEASE_MODE \
-						-DT_OSCAR -I ./include/pantech \
-						-include ./include/pantech/CUST_PANTECH.h \
+						-DT_OSCAR -I$(srctree)/include/pantech \
+						-include $(PWD)/include/pantech/CUST_PANTECH.h \
 						-DFIRM_VER=\"JYUSS1909102012\" -DSYS_MODEL_NAME=\"OSCAR\" \
 						-DPANTECH_MODEL_NAME=\"PantechP8010\" \
 						-DFS_USER_DATA_VER=8 \

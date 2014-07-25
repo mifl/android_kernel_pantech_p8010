@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -814,3 +814,4 @@ int msm_mctl_buf_return_buf(struct msm_cam_media_controller *pmctl,
 	spin_unlock_irqrestore(&pcam_inst->vq_irqlock, flags);
 	return -EINVAL;
 }
+

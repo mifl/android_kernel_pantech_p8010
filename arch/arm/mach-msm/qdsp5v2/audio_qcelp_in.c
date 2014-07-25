@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 Google, Inc.
  * Copyright (C) 2008 HTC Corporation
- * Copyright (c) 2009-2011, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2009-2011, The Linux Foundation. All rights reserved.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -1369,7 +1369,7 @@ static int audqcelp_in_open(struct inode *inode, struct file *file)
 
 	MM_DBG("allocating mem sz = %d\n", DMASZ);
 	handle = ion_alloc(client, DMASZ, SZ_4K,
-		ION_HEAP(ION_AUDIO_HEAP_ID));
+		ION_HEAP(ION_AUDIO_HEAP_ID), 0);
 	if (IS_ERR_OR_NULL(handle)) {
 		MM_ERR("Unable to create allocate O/P buffers\n");
 		rc = -ENOMEM;
@@ -1397,7 +1397,7 @@ static int audqcelp_in_open(struct inode *inode, struct file *file)
 		goto output_buff_get_flags_error;
 	}
 
-	audio->map_v_read = ion_map_kernel(client, handle, ionflag);
+	audio->map_v_read = ion_map_kernel(client, handle);
 	if (IS_ERR(audio->map_v_read)) {
 		MM_ERR("could not map read buffers,freeing instance 0x%08x\n",
 				(int)audio);
@@ -1466,7 +1466,7 @@ static int audqcelp_in_open(struct inode *inode, struct file *file)
 
 	MM_DBG("allocating BUFFER_SIZE  %d\n", BUFFER_SIZE);
 	handle = ion_alloc(client, BUFFER_SIZE,
-			SZ_4K, ION_HEAP(ION_AUDIO_HEAP_ID));
+			SZ_4K, ION_HEAP(ION_AUDIO_HEAP_ID), 0);
 	if (IS_ERR_OR_NULL(handle)) {
 		MM_ERR("Unable to create allocate I/P buffers\n");
 		rc = -ENOMEM;
@@ -1496,8 +1496,7 @@ static int audqcelp_in_open(struct inode *inode, struct file *file)
 		goto input_buff_alloc_error;
 	}
 
-	audio->map_v_write = ion_map_kernel(client,
-		handle, ionflag);
+	audio->map_v_write = ion_map_kernel(client, handle);
 	if (IS_ERR(audio->map_v_write)) {
 		MM_ERR("could not map write buffers\n");
 		rc = -ENOMEM;

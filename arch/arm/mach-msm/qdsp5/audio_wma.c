@@ -1,6 +1,6 @@
 /* audio_wma.c - wma audio decoder driver
  *
- * Copyright (c) 2009, 2011, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2009, 2011, The Linux Foundation. All rights reserved.
  *
  * Based on the mp3 native driver in arch/arm/mach-msm/qdsp5/audio_mp3.c
  *
@@ -1036,7 +1036,7 @@ static long audio_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 				handle = ion_alloc(audio->client,
 					(config.buffer_size *
 					config.buffer_count),
-					SZ_4K, ION_HEAP(ION_AUDIO_HEAP_ID));
+					SZ_4K, ION_HEAP(ION_AUDIO_HEAP_ID), 0);
 				if (IS_ERR_OR_NULL(handle)) {
 					MM_ERR("Unable to alloc I/P buffs\n");
 					audio->input_buff_handle = NULL;
@@ -1074,8 +1074,7 @@ static long audio_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 				}
 
 				audio->map_v_read = ion_map_kernel(
-					audio->client,
-					handle, ionflag);
+					audio->client, handle);
 				if (IS_ERR(audio->map_v_read)) {
 					MM_ERR("map of read buf failed\n");
 					ion_free(audio->client, handle);
@@ -1668,7 +1667,7 @@ static int audio_open(struct inode *inode, struct file *file)
 	audio->client = client;
 
 	handle = ion_alloc(client, mem_sz, SZ_4K,
-		ION_HEAP(ION_AUDIO_HEAP_ID));
+		ION_HEAP(ION_AUDIO_HEAP_ID), 0);
 	if (IS_ERR_OR_NULL(handle)) {
 		MM_ERR("Unable to create allocate O/P buffers\n");
 				rc = -ENOMEM;
@@ -1694,7 +1693,7 @@ static int audio_open(struct inode *inode, struct file *file)
 		goto output_buff_get_flags_error;
 			}
 
-	audio->map_v_write = ion_map_kernel(client, handle, ionflag);
+	audio->map_v_write = ion_map_kernel(client, handle);
 	if (IS_ERR(audio->map_v_write)) {
 		MM_ERR("could not map write buffers\n");
 			rc = -ENOMEM;

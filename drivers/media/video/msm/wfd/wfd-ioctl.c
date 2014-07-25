@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -150,13 +150,14 @@ static int wfd_allocate_ion_buffer(struct ion_client *client,
 	void *kvaddr = NULL, *phys_addr = NULL;
 	unsigned long size;
 	unsigned int alloc_regions = 0;
+	unsigned int ion_flags = 0;
 	int rc;
 
 	alloc_regions = ION_HEAP(ION_CP_MM_HEAP_ID);
-	alloc_regions |= secure ? ION_SECURE :
-				ION_HEAP(ION_IOMMU_HEAP_ID);
+	alloc_regions |= secure ? 0 : ION_HEAP(ION_IOMMU_HEAP_ID);
+	ion_flags |= secure ? ION_SECURE : 0;
 	handle = ion_alloc(client,
-			mregion->size, SZ_4K, alloc_regions);
+			mregion->size, SZ_4K, alloc_regions, ion_flags);
 
 	if (IS_ERR_OR_NULL(handle)) {
 		WFD_MSG_ERR("Failed to allocate input buffer\n");
@@ -164,7 +165,7 @@ static int wfd_allocate_ion_buffer(struct ion_client *client,
 		goto alloc_fail;
 	}
 
-	kvaddr = ion_map_kernel(client,	handle,	secure ? UNCACHED : CACHED);
+	kvaddr = ion_map_kernel(client,	handle);
 
 	if (IS_ERR_OR_NULL(kvaddr)) {
 		WFD_MSG_ERR("Failed to get virtual addr\n");

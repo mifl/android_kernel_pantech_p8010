@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2010-2012, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -347,7 +347,7 @@ static void vid_dec_output_frame_done(struct video_client_ctx *client_ctx,
 		ion_flag = vidc_get_fd_info(client_ctx, BUFFER_TYPE_OUTPUT,
 				pmem_fd, kernel_vaddr, buffer_index,
 				&buff_handle);
-		if (ion_flag == CACHED) {
+		if (ion_flag == ION_FLAG_CACHED) {
 			msm_ion_do_cache_op(client_ctx->user_ion_client,
 					buff_handle,
 					(unsigned long *) kernel_vaddr,
@@ -883,8 +883,7 @@ static u32 vid_dec_set_h264_mv_buffers(struct video_client_ctx *client_ctx,
 		}
 		vcd_h264_mv_buffer->kernel_virtual_addr = (u8 *) ion_map_kernel(
 			client_ctx->user_ion_client,
-			client_ctx->h264_mv_ion_handle,
-			ionflag);
+			client_ctx->h264_mv_ion_handle);
 		if (!vcd_h264_mv_buffer->kernel_virtual_addr) {
 			ERR("%s(): get_ION_kernel virtual addr failed\n",
 				 __func__);
@@ -910,7 +909,7 @@ static u32 vid_dec_set_h264_mv_buffers(struct video_client_ctx *client_ctx,
 					VIDEO_DOMAIN, VIDEO_MAIN_POOL,
 					SZ_4K, 0, (unsigned long *)&iova,
 					(unsigned long *)&buffer_size,
-					UNCACHED, 0);
+					0, 0);
 			if (rc) {
 				ERR("%s():get_ION_kernel physical addr fail\n",
 						 __func__);
@@ -1267,7 +1266,7 @@ static u32 vid_dec_decode_frame(struct video_client_ctx *client_ctx,
 						kernel_vaddr,
 						buffer_index,
 						&buff_handle);
-			if (ion_flag == CACHED) {
+			if (ion_flag == ION_FLAG_CACHED) {
 				msm_ion_do_cache_op(client_ctx->user_ion_client,
 				buff_handle,
 				(unsigned long *)kernel_vaddr,
@@ -1776,7 +1775,7 @@ static long vid_dec_ioctl(struct file *file,
 			}
 			ker_vaddr = (unsigned long) ion_map_kernel(
 				client_ctx->user_ion_client,
-				client_ctx->seq_hdr_ion_handle, ionflag);
+				client_ctx->seq_hdr_ion_handle);
 			if (!ker_vaddr) {
 				ERR("%s():get_ION_kernel virtual addr fail\n",
 							 __func__);
